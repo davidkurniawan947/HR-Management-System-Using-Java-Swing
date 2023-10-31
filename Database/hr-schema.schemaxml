@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_general_ci">hr</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="countries" view="standard">
+<left>676</left>
+<top>210</top>
+<width>251</width>
+<height>129</height>
+<sql_create_table>CREATE TABLE `countries` (
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_name` varchar(40) DEFAULT NULL,
+  `region_id` int(11) NOT NULL,
+  PRIMARY KEY (`country_id`),
+  KEY `countries_regions_region_id` (`region_id`),
+  CONSTRAINT `countries_regions_region_id` FOREIGN KEY (`region_id`) REFERENCES `regions` (`region_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="departments" view="standard">
+<left>20</left>
+<top>239</top>
+<width>274</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `departments` (
+  `department_id` int(11) NOT NULL AUTO_INCREMENT,
+  `department_name` varchar(30) NOT NULL,
+  `manager_id` int(11) DEFAULT NULL,
+  `location_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`department_id`),
+  KEY `departments_locations_location_id` (`location_id`),
+  KEY `departments_ibfk_1` (`manager_id`),
+  CONSTRAINT `departments_locations_location_id` FOREIGN KEY (`location_id`) REFERENCES `locations` (`location_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="employees" view="standard">
+<left>361</left>
+<top>19</top>
+<width>260</width>
+<height>265</height>
+<sql_create_table>CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(20) DEFAULT NULL,
+  `last_name` varchar(25) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `phone_number` varchar(20) DEFAULT NULL,
+  `hire_date` date NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `salary` double NOT NULL,
+  `commission_pct` double DEFAULT NULL,
+  `manager_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`employee_id`),
+  KEY `employees_departments_department_id` (`department_id`),
+  KEY `employees_employees_employee_id` (`manager_id`),
+  KEY `employees_jobs_job_id` (`job_id`),
+  CONSTRAINT `employees_departments_department_id` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`),
+  CONSTRAINT `employees_jobs_job_id` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="jobs" view="standard">
+<left>20</left>
+<top>20</top>
+<width>270</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `jobs` (
+  `job_id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_title` varchar(35) NOT NULL,
+  `min_salary` double NOT NULL,
+  `max_salary` double NOT NULL,
+  PRIMARY KEY (`job_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="locations" view="standard">
+<left>362</left>
+<top>311</top>
+<width>254</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `locations` (
+  `location_id` int(11) NOT NULL AUTO_INCREMENT,
+  `street_address` varchar(40) DEFAULT NULL,
+  `postal_code` varchar(12) DEFAULT NULL,
+  `city` varchar(30) NOT NULL,
+  `state_province` varchar(25) DEFAULT NULL,
+  `country_id` int(11) NOT NULL,
+  PRIMARY KEY (`location_id`),
+  KEY `locations_countries_country_id` (`country_id`),
+  CONSTRAINT `locations_countries_country_id` FOREIGN KEY (`country_id`) REFERENCES `countries` (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3203 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="regions" view="standard">
+<left>656</left>
+<top>39</top>
+<width>244</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `regions` (
+  `region_id` int(11) NOT NULL AUTO_INCREMENT,
+  `region_name` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`region_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
